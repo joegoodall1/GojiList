@@ -29,7 +29,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     @Override
     public FeedListRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, null);
-        FeedListRowHolder mh = new FeedListRowHolder(v);
+        FeedListRowHolder mh = new FeedListRowHolder(mContext, v);
 
         return mh;
     }
@@ -37,6 +37,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     @Override
     public void onBindViewHolder(FeedListRowHolder feedListRowHolder, int i) {
         FeedItem feedItem = feedItemList.get(i);
+
 
         Picasso.with(mContext).load(feedItem.getThumbnail())
                 .error(R.drawable.placeholder)
