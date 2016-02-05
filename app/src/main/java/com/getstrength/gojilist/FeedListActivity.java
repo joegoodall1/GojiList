@@ -126,7 +126,7 @@ public class FeedListActivity extends Activity {
 
                 FeedItem item = new FeedItem();
                 item.setTitle(post.getString("name"));
-                //item.setThumbnail(post.getString("coverImage"));
+                item.setThumbnail("https://gojimo.s3.amazonaws.com/production/assets/e5f29de4-385e-48fb-accf-83e3e801461c/640x960_ASVAB_Splash.png");
 
                 feedItemList.add(item);
             }

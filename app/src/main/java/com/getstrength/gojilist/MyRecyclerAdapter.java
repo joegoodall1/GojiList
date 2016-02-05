@@ -3,12 +3,15 @@ package com.getstrength.gojilist;
 /**
  * Created by Joe on 03/02/2016.
  */
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +21,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
 
     private List<FeedItem> feedItemList;
-
+    private int lastPosition = -1;
     private Context mContext;
 
     public MyRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
@@ -43,8 +46,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(feedListRowHolder.thumbnail);
+        setAnimation(feedListRowHolder.thumbnail, i);
+
 
         feedListRowHolder.title.setText(Html.fromHtml(feedItem.getTitle()));
+        setAnimation(feedListRowHolder.title, i);
+
+
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override
