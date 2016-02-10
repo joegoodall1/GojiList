@@ -126,9 +126,9 @@ public class FeedListActivity extends Activity {
 
                 FeedItem item = new FeedItem();
                 item.setTitle(post.getString("name"));
-                item.setThumbnail("https://gojimo.s3.amazonaws.com/production/assets/e5f29de4-385e-48fb-accf-83e3e801461c/640x960_ASVAB_Splash.png");
-
+                //item.setThumbnail(post.getJSONObject("default_products").getJSONArray("assets").getJSONObject(6).getString("path"));
                 feedItemList.add(item);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

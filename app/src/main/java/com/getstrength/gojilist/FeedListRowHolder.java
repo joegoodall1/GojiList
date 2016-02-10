@@ -34,6 +34,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
         // We can access the data within the views
         Toast.makeText(context, title.getText(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, SubjectActivity.class);
+        intent.putExtra(SubjectActivity.EXTRA_NAME, String.valueOf(title.getText()));
         context.startActivity(intent);
     }
 
