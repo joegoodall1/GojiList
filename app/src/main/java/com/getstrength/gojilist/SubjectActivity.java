@@ -2,16 +2,21 @@ package com.getstrength.gojilist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.squareup.picasso.Picasso;
 
 public class SubjectActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "qualification_name";
+    public static final String SUBJECT_NAME = "subject_name";
+    public static final String BACKDROP_PATH = "backdrop_path";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,20 +26,27 @@ public class SubjectActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String qualificationName = intent.getStringExtra(EXTRA_NAME);
 
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(qualificationName);
 
-        loadBackdrop();
+        loadBackdrop(intent.getStringExtra(BACKDROP_PATH));
+        Bundle b = intent.getExtras();
+        String[] array = b.getStringArray(SUBJECT_NAME);
+        if (array != null) {
+            ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
+            ListView listView = (ListView) findViewById(R.id.list);
+            listView.setAdapter(adapter);
+        }
+
+
     }
 
-    private void loadBackdrop() {
+    private void loadBackdrop(String path) {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Picasso.with(this).load("https://gojimo.s3.amazonaws.com/production/assets/c0b03fd3-2de5-42c7-905f-097d7c18a677/640x960_ASVAB_Splash.png")
+        Picasso.with(this).load(path)
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(imageView);

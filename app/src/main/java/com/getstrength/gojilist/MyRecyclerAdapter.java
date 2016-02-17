@@ -6,7 +6,6 @@ package com.getstrength.gojilist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +48,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         setAnimation(feedListRowHolder.thumbnail, i);
 
 
-        feedListRowHolder.title.setText(Html.fromHtml(feedItem.getTitle()));
+        feedListRowHolder.title.setText(feedItem.getTitle());
+        feedListRowHolder.path = feedItem.getThumbnail();
         setAnimation(feedListRowHolder.title, i);
+        feedListRowHolder.subjects = feedItem.getSubjects();
 
 
     }

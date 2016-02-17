@@ -115,18 +115,56 @@ public class FeedListActivity extends Activity {
         try {
             JSONArray response = new JSONArray(result);
 
-
             /*Initialize array if null*/
             if (null == feedItemList) {
                 feedItemList = new ArrayList<FeedItem>();
             }
 
+
             for (int i = 0; i < response.length(); i++) {
-                JSONObject post = response.getJSONObject(i);
+
+                JSONObject qualification = response.getJSONObject(i);
+
+                JSONArray JSONSubjects = qualification.optJSONArray("subjects");
+                String[] subjects = parseSubject(JSONSubjects);
+
+                String path = null;
 
                 FeedItem item = new FeedItem();
-                item.setTitle(post.getString("name"));
-                item.setThumbnail("https://gojimo.s3.amazonaws.com/production/assets/c0b03fd3-2de5-42c7-905f-097d7c18a677/640x960_ASVAB_Splash.png");/*(post.getJSONObject("default_products").getJSONArray("assets").getJSONObject(6).getString("path"));*/
+                item.setTitle(qualification.optString("name"));
+                item.setSubjects(subjects);
+
+                JSONArray products = qualification.optJSONArray("default_products");
+                if (products == null) {
+                    continue;
+                }
+
+                for (int j = 0; j < products.length(); ++j) {
+
+                    JSONObject product = (JSONObject) products.opt(j);
+
+                    JSONArray assets = product.optJSONArray("assets");
+                    if (assets == null) {
+                        continue;
+                    }
+
+                    for (int k = 0; k < assets.length(); ++k) {
+
+                        JSONObject asset = (JSONObject) assets.opt(k);
+
+                        String meta = asset.optString("meta");
+                        if (meta != null && meta.equals("coverImage")) {
+                            path = asset.optString("path");
+                            break;
+                        }
+                    }
+
+                    if (path != null) {
+                        break;
+                    }
+                }
+
+                item.setThumbnail(path);
                 feedItemList.add(item);
 
             }
@@ -135,4 +173,23 @@ public class FeedListActivity extends Activity {
         }
     }
 
+    private String[] parseSubject(JSONArray subjects) {
+        if (subjects == null) {
+            return null;
+        }
+
+
+        String[] subjectNames = new String[subjects.length()];
+
+        for (int l = 0; l < subjects.length(); ++l) {
+
+            JSONObject subject = subjects.optJSONObject(l);
+            String title = subject.optString("title");
+            subjectNames[l] = title;
+        }
+
+        return subjectNames;
+    }
+
 }
+

@@ -6,6 +6,7 @@ package com.getstrength.gojilist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,8 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
     protected ImageView thumbnail;
     protected TextView title;
     private Context context;
+    protected String path;
+    protected String[] subjects;
 
     public FeedListRowHolder(Context context, View view) {
         super(view);
@@ -34,7 +37,11 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
         // We can access the data within the views
         Toast.makeText(context, title.getText(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, SubjectActivity.class);
-        intent.putExtra(SubjectActivity.EXTRA_NAME, String.valueOf(title.getText()));
+        intent.putExtra(SubjectActivity.EXTRA_NAME, title.getText().toString());
+        intent.putExtra(SubjectActivity.BACKDROP_PATH, path);
+        Bundle b = new Bundle();
+        b.putStringArray(SubjectActivity.SUBJECT_NAME, subjects);
+        intent.putExtras(b);
         context.startActivity(intent);
     }
 

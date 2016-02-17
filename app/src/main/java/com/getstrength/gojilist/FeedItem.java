@@ -7,6 +7,16 @@ public class FeedItem {
     private String title;
     private String thumbnail;
 
+    public String[] getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(String[] subjects) {
+        this.subjects = subjects;
+    }
+
+    private String[] subjects;
+
     public String getTitle() {
         return title;
     }
